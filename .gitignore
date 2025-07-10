@@ -484,3 +484,5 @@ $RECYCLE.BIN/
 *.swp
 API/appsettings.json
 API/movies.db
+API/movies.db-shm
+API/movies.db-wal
