@@ -31,6 +31,11 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+// Configure the HTTP request pipeline.
+
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+.WithOrigins("http://localhost:5173", "https://localhost:5173"));
+
 app.MapControllers();
 
 using var scope = app.Services.CreateScope();
