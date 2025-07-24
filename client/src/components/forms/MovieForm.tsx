@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DatePicker } from "@mui/x-date-pickers";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 interface MovieFormProps {
     initialData?: {
@@ -21,14 +21,14 @@ interface MovieFormProps {
     submitLabel?: string;
 }
 
-export default function MovieForm({ initialData, onSubmit }: MovieFormProps) {
+export default function MovieForm({ initialData, onSubmit, submitLabel }: MovieFormProps) {
     
     const [formData, setFormData] = useState(
         initialData || {
-            title: "",
-            genre: "",
-            releaseDate: null as Dayjs | null,
-            director: "",
+            title: initialData?.title || "",
+            genre: initialData?.genre || "",
+            releaseDate: initialData?.releaseDate ? dayjs(initialData.releaseDate) : null,
+            director: initialData?.director || "",
         }
     );
 
@@ -41,7 +41,10 @@ export default function MovieForm({ initialData, onSubmit }: MovieFormProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(formData);
+        onSubmit({
+            ...formData,
+            releaseDate: formData.releaseDate?.format("YYYY-MM-DD") || ""
+        });
     };
     return (
         <Box component="form" onSubmit={handleSubmit}>
@@ -71,11 +74,17 @@ export default function MovieForm({ initialData, onSubmit }: MovieFormProps) {
                     <DatePicker
                         label="Release Date"
                         name="releaseDate"
-                        defaultValue={formData.releaseDate}
+                        value={
+                            formData.releaseDate && dayjs.isDayjs(formData.releaseDate)
+                            ? formData.releaseDate
+                            : formData.releaseDate
+                            ? dayjs(formData.releaseDate)
+                            : ""
+                        }
                         onChange={(newValue) => {
                             setFormData((prev) => ({
                                 ...prev,
-                                releaseDate: newValue ? newValue.format("YYYY-MM-DD") : "",
+                                releaseDate: newValue,
                             }));
                         }}
                         slotProps={{ textField: {required: true}}}

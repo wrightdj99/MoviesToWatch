@@ -2,11 +2,22 @@ import { Card, CardContent, IconButton, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import StyledList, { type StyledListItem } from "../global/StyledList";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Edit } from "@mui/icons-material";
 import axios from "axios";
 import { deleteMovie } from "../../api/deleteMovie";
-export default function Home() {
+import { useNavigate } from "react-router-dom";
+
+
+
+type HomeProps = {
+    showToast: (message: string, severity?: "success" | "error") => void;
+}
+
+export default function Home({ showToast }: HomeProps) {
 
     const [movies, setMovies] = useState<Movie[]>([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get<Movie[]>("https://localhost:5001/api/movies/")
@@ -21,7 +32,7 @@ export default function Home() {
     function deleteHandler(id: string) {
         deleteMovie(id) 
             .then(() => {
-                console.log("Movie deleted.")
+                showToast("Deleted Movie!", "success");
             })
             .catch((err) => {
                 alert(err);
@@ -32,9 +43,14 @@ export default function Home() {
     const items: StyledListItem[] = movies.map((movie) => {
         const year = new Date(movie.releaseDate).getFullYear();
         const actionIcon = (
-            <IconButton onClick={() => deleteHandler(movie.id)}>
-                <DeleteIcon/>
-            </IconButton>
+            <div>
+                <IconButton onClick={() => navigate(`/edit/${movie.id}`)}>
+                    <Edit/>
+                </IconButton>
+                <IconButton onClick={() => deleteHandler(movie.id)}>
+                    <DeleteIcon/>
+                </IconButton>
+            </div>
         );
         return {
             id: movie.id,

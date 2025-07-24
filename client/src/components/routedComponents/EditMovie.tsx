@@ -4,7 +4,11 @@ import MovieForm from "../forms/MovieForm";
 import { getMovieById } from "../../api/getMovieById";
 import { updateMovie } from "../../api/updateMovie";
 
-export default function EditMovie() {
+type EditMovieProps = {
+    showToast: (message: string, severity?: "success" | "error") => void;
+};
+
+export default function EditMovie({ showToast }: EditMovieProps) {
     const { id } = useParams();
     const navigate = useNavigate();
     const [movie, setMovie] = useState<any | null>(null);
@@ -18,6 +22,7 @@ export default function EditMovie() {
     const handleSubmit = async (data: any) => {
         try {
             await updateMovie(id!, data);
+            showToast("Movie Updated!", "success");
             navigate("/")
         } catch {
             alert("Failed to update movie")
@@ -28,7 +33,9 @@ export default function EditMovie() {
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
             <MovieForm
                 initialData={movie}
-                onSubmit={handleSubmit}
+                onSubmit={
+                    handleSubmit
+                }
                 submitLabel="Update Movie"
             />
         </div>
