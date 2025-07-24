@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import StyledList, { type StyledListItem } from "../global/StyledList";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
-import { deleteMovie } from "../../middleware/deleteMovie";
+import { deleteMovie } from "../../api/deleteMovie";
 export default function Home() {
 
     const [movies, setMovies] = useState<Movie[]>([]);

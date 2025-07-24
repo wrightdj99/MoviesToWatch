@@ -7,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import MovieIcon from '@mui/icons-material/Movie';
 import { useState } from "react";
+import DrawerNavItem from "./DrawerNavItem";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -18,16 +19,11 @@ export default function Header() {
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
-        {['Home', 'Add Movie', 'IMDb Reference'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index === 0 ? <HomeIcon /> : <MovieIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <List>
+          <DrawerNavItem label="Home" icon={<HomeIcon/>} to="/"/>
+          <DrawerNavItem label="Add Movie" icon={<MovieIcon/>} to="/add"/>
+          <DrawerNavItem label="IMDb reference" icon={<MovieIcon/>} href="https://www.imdb.com"/>
+        </List>
       </List>
     </Box>
   );
