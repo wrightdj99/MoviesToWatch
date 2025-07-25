@@ -3,16 +3,18 @@ import React, { useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DatePicker } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 interface MovieFormProps {
     initialData?: {
+        id: string;
         title: string;
         genre: string;
         releaseDate: string;
         director: string;
     };
     onSubmit: (data: {
+        id: string;
         title: string;
         genre: string;
         releaseDate: string;
@@ -23,14 +25,14 @@ interface MovieFormProps {
 
 export default function MovieForm({ initialData, onSubmit, submitLabel }: MovieFormProps) {
     
-    const [formData, setFormData] = useState(
-        initialData || {
+    const [formData, setFormData] = useState(() => ({
+            id: initialData?.id || "",
             title: initialData?.title || "",
             genre: initialData?.genre || "",
             releaseDate: initialData?.releaseDate ? dayjs(initialData.releaseDate) : null,
             director: initialData?.director || "",
-        }
-    );
+        
+    }));
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prev) => ({
@@ -43,12 +45,15 @@ export default function MovieForm({ initialData, onSubmit, submitLabel }: MovieF
         e.preventDefault();
         onSubmit({
             ...formData,
-            releaseDate: formData.releaseDate?.format("YYYY-MM-DD") || ""
+            releaseDate: formData.releaseDate?.isValid?.()
+                ? formData.releaseDate.format("YYYY-MM-DD")
+                : ""
         });
     };
     return (
         <Box component="form" onSubmit={handleSubmit}>
             <Stack spacing={2}>
+                <input type="hidden" name="id" value={formData.id}/>
                 <TextField
                     label="Title"
                     name="title"
@@ -75,11 +80,7 @@ export default function MovieForm({ initialData, onSubmit, submitLabel }: MovieF
                         label="Release Date"
                         name="releaseDate"
                         value={
-                            formData.releaseDate && dayjs.isDayjs(formData.releaseDate)
-                            ? formData.releaseDate
-                            : formData.releaseDate
-                            ? dayjs(formData.releaseDate)
-                            : ""
+                           formData.releaseDate
                         }
                         onChange={(newValue) => {
                             setFormData((prev) => ({

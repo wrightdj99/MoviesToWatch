@@ -33,7 +33,7 @@ const App = () => {
               <AddMovie showToast={showToast}/>
             </>
           }/>
-          <Route path="/edit/:id" element={
+          <Route path="/edit" element={
             <>
               <Header/>
               <EditMovie showToast={showToast}/>

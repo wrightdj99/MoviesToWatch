@@ -30,7 +30,7 @@ export default function EditMovie({ showToast }: EditMovieProps) {
     }
 
     return movie ? (
-        <div style={{ maxWidth: 600, margin: "0 auto" }}>
+        <div style={{ maxWidth: 600, margin: "80px auto 0" }}>
             <MovieForm
                 initialData={movie}
                 onSubmit={
