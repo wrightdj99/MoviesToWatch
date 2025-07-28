@@ -21,7 +21,7 @@ export default function EditMovie({ showToast }: EditMovieProps) {
 
     const handleSubmit = async (data: any) => {
         try {
-            await updateMovie(id!, data);
+            await updateMovie(data);
             showToast("Movie Updated!", "success");
             navigate("/")
         } catch {
