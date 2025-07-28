@@ -14,7 +14,7 @@ interface MovieFormProps {
         director: string;
     };
     onSubmit: (data: {
-        id: string;
+        id?: string;
         title: string;
         genre: string;
         releaseDate: string;
@@ -43,12 +43,21 @@ export default function MovieForm({ initialData, onSubmit, submitLabel }: MovieF
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit({
-            ...formData,
+
+        const payload = {
+            title: formData.title,
+            genre: formData.genre,
+            director: formData.director,
             releaseDate: formData.releaseDate?.isValid?.()
                 ? formData.releaseDate.format("YYYY-MM-DD")
-                : ""
-        });
+                : "",
+        }
+
+        if (formData.id) {
+            (payload as any).id = formData.id;
+        }
+
+        onSubmit(payload);
     };
     return (
         <Box component="form" onSubmit={handleSubmit}>
