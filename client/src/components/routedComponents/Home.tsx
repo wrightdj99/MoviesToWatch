@@ -20,7 +20,7 @@ export default function Home({ showToast }: HomeProps) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get<Movie[]>("https://localhost:5001/api/movies/")
+        axios.get<Movie[]>("/api/movies/")
             .then(
                 res => {
                     setMovies(res.data);

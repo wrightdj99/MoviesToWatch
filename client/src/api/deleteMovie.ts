@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://localhost:5001/api/movies/"
+const BASE_URL = "/api/movies/"
 
 export async function deleteMovie(movieId: string): Promise<void> {
     try {

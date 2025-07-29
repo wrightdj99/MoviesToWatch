@@ -35,10 +35,17 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
-
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
-.WithOrigins("http://localhost:5173", "https://localhost:5173", "https://movies-to-watch-app-danwright-b3d5gaagdpfmcuer.centralus-01.azurewebsites.net"));
-
+app.UseRouting();
+app.UseCors(x => x
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .WithOrigins(
+        "http://localhost:5173", 
+        "https://localhost:5173", 
+        "https://movies-to-watch-app-danwright-b3d5gaagdpfmcuer.centralus-01.azurewebsites.net"
+    )
+);
+app.UseAuthorization();
 app.MapControllers();
 
 app.MapFallbackToFile("index.html");

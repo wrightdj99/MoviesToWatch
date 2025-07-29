@@ -9,7 +9,7 @@ export interface MovieInput {
 
 export async function createMovie(movie: MovieInput): Promise<void> {
     try {
-        await axios.post("https://localhost:5001/api/movies", movie);
+        await axios.post("/api/movies", movie);
     } catch(error) {
         console.error("Failed to add movie", error);
         throw error;
