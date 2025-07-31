@@ -27,7 +27,15 @@ public class MoviesController : BaseApiController
     [HttpPost]
     public async Task<ActionResult<string>> CreateMovie(Movie movie)
     {
-        return await Mediator.Send(new CreateMovie.Command { Movie = movie });
+        try
+        {
+            return await Mediator.Send(new CreateMovie.Command { Movie = movie });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Create Movie Error: {ex.Message}");
+            return StatusCode(500, "Internal Server Error");
+        }
     }
 
     [HttpPut]
