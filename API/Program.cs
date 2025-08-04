@@ -13,7 +13,9 @@ builder.Services.AddDbContext<AppDbContext>( opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddCors();
 builder.Services.AddMediatR(x =>
     x.RegisterServicesFromAssemblyContaining<GetMovieList.Handler>()
@@ -28,7 +30,8 @@ app.UseStaticFiles();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
