@@ -3,7 +3,7 @@ name: Deploy .NET API + React Client to Azure
 on:
   push:
     branches:
-      - main  # Or whatever your default branch is
+      - main
 
 jobs:
   build-and-deploy:
@@ -27,9 +27,13 @@ jobs:
     - name: Publish API (with React)
       run: dotnet publish API/API.csproj -c Release -o publish_output
 
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: movies-to-watch-app-danwright
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: publish_output
