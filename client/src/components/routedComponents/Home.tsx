@@ -55,7 +55,7 @@ export default function Home({ showToast }: HomeProps) {
         return {
             id: movie.id,
             primary: movie.title,
-            secondary: `${movie.genre} - Directed by ${movie.director} - Released in ${year}`,
+            secondary: `${movie.genre} - Directeddd by ${movie.director} - Released in ${year}`,
             actionIcon,
         }
     });
@@ -73,7 +73,7 @@ export default function Home({ showToast }: HomeProps) {
                     fontWeight: 600,
                     textAlign:"center"
                 }}>
-                Your Current Movies!!!!
+                Your Current Movies
             </Typography>
             <StyledList items={items}/>
         </CardContent>
