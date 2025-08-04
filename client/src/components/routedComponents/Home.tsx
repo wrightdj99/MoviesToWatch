@@ -73,7 +73,7 @@ export default function Home({ showToast }: HomeProps) {
                     fontWeight: 600,
                     textAlign:"center"
                 }}>
-                Your Current Movie List
+                Your Current Movies!!!!
             </Typography>
             <StyledList items={items}/>
         </CardContent>
