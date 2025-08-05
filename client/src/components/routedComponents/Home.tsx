@@ -55,7 +55,7 @@ export default function Home({ showToast }: HomeProps) {
         return {
             id: movie.id,
             primary: movie.title,
-            secondary: `${movie.genre} - Directedddddddddd by ${movie.director} - Released in ${year}`,
+            secondary: `${movie.genre} - Directed by ${movie.director} - Released in ${year}`,
             actionIcon,
         }
     });

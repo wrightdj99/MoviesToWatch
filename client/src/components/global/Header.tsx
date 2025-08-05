@@ -67,7 +67,7 @@ export default function Header() {
                           fontWeight: 600
                       }}
                   >
-                  Movies To Watch RIGHT NOW!!
+                  Movies To Watch
                   </Typography>
               </Toolbar>
           </AppBar>
