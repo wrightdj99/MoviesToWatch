@@ -18,18 +18,41 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore 
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install React dependencies
+      working-directory: client
+      run: npm install
+
+    - name: Build React app
+      working-directory: client
+      run: npm run build
+
+    - name: Copy React build to API wwwroot
+      run: |
+        rm -rf API/wwwroot
+        cp -r client/dist API/wwwroot
+
+    - name: Restore .NET dependencies
+      run: dotnet restore
 
     - name: Build API project
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build API/API.csproj --configuration Release --no-restore
 
-    - name: Publish API (with React)
-      run: dotnet publish API/API.csproj -c Release -o publish_output
+    - name: Publish API project
+      run: dotnet publish API/API.csproj --configuration Release --output publish_output
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: movies-to-watch-app-danwright
-        publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: publish_output
