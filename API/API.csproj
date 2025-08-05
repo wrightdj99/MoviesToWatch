@@ -1,5 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <Target Name="CopyReactBuildToWwwroot" AfterTargets="Build">
+    <ItemGroup>
+      <DistFiles Include="..\client\dist\**\*"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(DistFiles)" 
+        DestinationFolder="wwwroot\%(RecursiveDir)" 
+        SkipUnchangedFiles="true" />
+  </Target>
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
