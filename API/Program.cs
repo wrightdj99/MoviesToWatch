@@ -64,14 +64,6 @@ try
     await context.Database.MigrateAsync();
     await DbInitializer.SeedData(context);
 
-    // TEMPORARY CLEANUP: Remove bad record with empty ID
-    var badMovie = await context.Movies.FirstOrDefaultAsync(m => m.Id == "");
-    if (badMovie != null)
-    {
-        context.Movies.Remove(badMovie);
-        await context.SaveChangesAsync();
-        Console.WriteLine("🗑️ Bad movie with empty ID deleted.");
-    }
 
 }
 catch (Exception e)
