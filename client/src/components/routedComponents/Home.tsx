@@ -1,4 +1,4 @@
-import { Card, CardContent, IconButton, Typography } from "@mui/material";
+import { Box, Card, CardContent, IconButton, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import StyledList, { type StyledListItem } from "../global/StyledList";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -43,15 +43,16 @@ export default function Home({ showToast }: HomeProps) {
     const items: StyledListItem[] = movies.map((movie) => {
         const year = new Date(movie.releaseDate).getFullYear();
         const actionIcon = (
-            <div>
-                <IconButton onClick={() => navigate(`/edit/${movie.id}`)}>
-                    <Edit/>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <IconButton aria-label="edit" onClick={() => navigate(`/edit/${movie.id}`)}>
+                    <Edit fontSize="small" />
                 </IconButton>
-                <IconButton onClick={() => deleteHandler(movie.id)}>
-                    <DeleteIcon/>
+                <IconButton aria-label="delete" onClick={() => deleteHandler(movie.id)}>
+                    <DeleteIcon fontSize="small" />
                 </IconButton>
-            </div>
+            </Box>
         );
+
         return {
             id: movie.id,
             primary: movie.title,
@@ -61,17 +62,18 @@ export default function Home({ showToast }: HomeProps) {
     });
 
     return (
-    <Card sx={{ minWidth: 275, padding: 4, margin: 4 }}>
+    <Card sx={{ minWidth: { xs: 200, sm: 220, md: 275 }, padding: 4, margin: 4 }}>
         <CardContent>
             <Typography 
                 variant="h3" 
                 component="div"
                 sx={{ 
-                    flexGrow: 1,
+                    fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' }, // Responsive
                     fontFamily: "'Cinzel', serif",
                     letterSpacing: 3,
                     fontWeight: 600,
-                    textAlign:"center"
+                    textAlign: "center",
+                    mb: 3
                 }}>
                 Your Current Movies
             </Typography>
